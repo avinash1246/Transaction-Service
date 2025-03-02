@@ -1,0 +1,55 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/accountingDB
+    username: root
+    password: Gal@1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  application:
+    name: transaction-service
+server:
+  port: 9081
+
+jwt:
+  secret: u3$9hD!w8s@DkmfP@1NvL@91mzQkR#nY
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8762/eureka/
+
+---
+spring:
+  datasource:
+    url: jdbc:mysql://mysql:3306/accountingDB
+    username: root
+    password: Gal@1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  application:
+    name: transaction-service
+
+  config:
+    activate:
+      on-profile:
+      - docker
+server:
+  port: 9081
+
+jwt:
+  secret: u3$9hD!w8s@DkmfP@1NvL@91mzQkR#nY
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8762/eureka/
