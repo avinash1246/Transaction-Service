@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.book.transaction.model.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
-    List<Transaction> findByCustomerId(String customerId);
-    List<Transaction> findByUserId(String userId);
+    //List<Transaction> findByCustomerId(String customerId);
+	List<Transaction> findByCustomerIdOrderByCreatedAtDesc(String customerId);
+    List<Transaction> findByUserIdOrderByCreatedAtDesc(String userId);
 }

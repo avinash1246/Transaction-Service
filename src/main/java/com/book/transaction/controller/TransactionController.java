@@ -55,7 +55,7 @@ public class TransactionController {
     @GetMapping("/myTransactions")
     public ResponseEntity<List<Transaction>> getMyTransactions(HttpServletRequest request) {
     	Map<String, Object> claimsMap = getClaims(request);
-        return ResponseEntity.ok(transactionService.getTransactionsByEmail(claimsMap));
+        return ResponseEntity.ok(transactionService.getTransactionsByUserId(claimsMap));
     }
     
     @GetMapping("/transactionSummary")
@@ -71,7 +71,6 @@ public class TransactionController {
         String userId = jwtUtil.extractUserId(token);
         claimsMap.put("email", email);
         claimsMap.put("userId", userId);
-        System.out.println("claimsMap--"+claimsMap);
 		return claimsMap;
 	}
 }

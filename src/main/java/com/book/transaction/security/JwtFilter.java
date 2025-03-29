@@ -21,22 +21,19 @@ public class JwtFilter extends GenericFilterBean {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
-            throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String token = httpRequest.getHeader("Authorization");
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		// String token = httpRequest.getHeader("Authorization");
+		String token = jwtUtil.extractToken(httpRequest);
 
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-            if (jwtUtil.validateToken(token)) {
-                String email = jwtUtil.extractEmail(token);
-                UserDetails userDetails = User.withUsername(email).password("").authorities("USER").build();
-                SecurityContextHolder.getContext().setAuthentication(
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities())
-                );
-            }
-        }
-        chain.doFilter(request, response);
-    }
+		if (token != null && jwtUtil.validateToken(token)) {
+			String email = jwtUtil.extractEmail(token);
+			UserDetails userDetails = User.withUsername(email).password("").authorities("USER").build();
+			SecurityContextHolder.getContext().setAuthentication(
+					new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
+		}
+		chain.doFilter(request, response);
+	}
 }

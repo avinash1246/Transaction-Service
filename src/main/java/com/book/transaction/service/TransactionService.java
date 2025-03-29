@@ -33,11 +33,12 @@ public class TransactionService {
     }
 
     public List<Transaction> getTransactionsByCustomer(String customerId, Map<String, Object> claimsMap) {
-        return transactionRepository.findByCustomerId(customerId);
+//        return transactionRepository.findByCustomerId(customerId);
+        return transactionRepository.findByCustomerIdOrderByCreatedAtDesc(customerId);
     }
 
     public Map<String, BigDecimal> getCustomerBalance(String customerId, Map<String, Object> claimsMap) {
-        List<Transaction> transactions = transactionRepository.findByCustomerId(customerId);
+        List<Transaction> transactions = transactionRepository.findByCustomerIdOrderByCreatedAtDesc(customerId);
 
         BigDecimal balance = BigDecimal.ZERO;
         for (Transaction t : transactions) {
@@ -50,13 +51,13 @@ public class TransactionService {
         return Map.of("balance", balance);
     }
 
-	public List<Transaction> getTransactionsByEmail(Map<String, Object> claimsMap) {
-		return transactionRepository.findByUserId((String) claimsMap.get("userId"));
+	public List<Transaction> getTransactionsByUserId(Map<String, Object> claimsMap) {
+		return transactionRepository.findByUserIdOrderByCreatedAtDesc((String) claimsMap.get("userId"));
 	}
 	
     public Map<String, BigDecimal> getTransactionSummary(Map<String, Object> claimsMap) {
     	Map<String, BigDecimal> summaryMap = new HashMap<>();
-        List<Transaction> transactions = transactionRepository.findByUserId((String) claimsMap.get("userId"));
+        List<Transaction> transactions = transactionRepository.findByUserIdOrderByCreatedAtDesc((String) claimsMap.get("userId"));
 
         BigDecimal youGaveBalance = BigDecimal.ZERO;
         BigDecimal youGetBalance = BigDecimal.ZERO;
